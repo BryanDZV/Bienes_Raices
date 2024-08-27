@@ -25,4 +25,9 @@ block contenido
                         label.block.text-sm.uppercase.text-gray-500.mb-3.font-bold(for='repetir_password') Repetir
                         input#repetir_password.w-full.px-3.py-2.border.border-gray-300.rounded-md.placeholder-gray-400(placeholder='Repite tu Password' type='password' name='password')
 
+                    div.flex.items-center.justify-between
+                        a.text-gray-500.text-xs(href='/auth/login') ¿Ya tienes cuenta? Iniciar Sesión
+                        a.text-gray-500.text-xs(href='/auth/olvide-password') Olvide mi Password
+
+
                     input(class='w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 cursor-pointer' type="submit" value='Crear Cuenta')
