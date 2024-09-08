@@ -33,7 +33,7 @@ app.use(express.static("public"));
 app.use("/auth", userRoutes);
 
 //Defenir un puerto y arrancar el proyecto
-const port = 3001;
+const port = process.env.PORT || 3001;
 app.listen(port, () => {
   console.log(
     `El servidor se esta escuchando en el puerto http://localhost:${port}`
