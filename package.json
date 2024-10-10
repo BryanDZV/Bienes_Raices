@@ -20,14 +20,18 @@
   "author": "David",
   "license": "ISC",
   "dependencies": {
+    "2": "^3.0.0",
     "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "csurf": "^1.10.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.2.0",
+    "mysql": "^2.18.1",
     "mysql2": "^3.11.0",
     "nodemailer": "^6.9.15",
     "pug": "^3.0.3",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",

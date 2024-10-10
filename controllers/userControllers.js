@@ -12,6 +12,7 @@ const formularioLogin = (req, res) => {
 const formularioRegistro = (req, res) => {
   res.render("auth/registro", {
     pagina: "Crear Cuentas",
+    csrfToken: req.csrfToken()
   });
 };
 
@@ -41,6 +42,7 @@ const registrar = async (req, res) => {
     //Hay errores en la validacion
     return res.render("auth/registro", {
       pagina: "Crear Cuentas",
+      csrfToken: req.csrfToken(),
       errores: resultado.array(),
       usuario: {
         nombre: req.body.nombre,
@@ -51,6 +53,8 @@ const registrar = async (req, res) => {
 
   //destructuring de datos
   const { nombre, email, password } = req.body;
+
+
   //verificar que el usuario no este duplicado
   const existeUsuario = await Usuario.findOne({
     where: { email },
@@ -58,6 +62,7 @@ const registrar = async (req, res) => {
   if (existeUsuario) {
     return res.render("auth/registro", {
       pagina: "Crear Cuentas",
+      csrfToken: req.csrfToken(),
       errores: [{ msg: "Ya existe el Usuario" }],
       usuario: {
         nombre: req.body.nombre,
@@ -91,7 +96,9 @@ const registrar = async (req, res) => {
 
 const confirmar = async (req, res) => {
   const { token } = req.params;
-  // console.log(token, "holaaaa");
+   //console.log(token, "holaaaa");
+
+
   //Verificar si el token es válido
 
   const usuario = await Usuario.findOne({ where: { token } });
@@ -102,7 +109,24 @@ const confirmar = async (req, res) => {
       error: true,
     });
   }
+
+
   //Confirmar la cuenta
+
+  usuario.token=null;
+  usuario.confirmado=true;
+  await usuario.save();
+
+
+  res.render("auth/confirmar-cuenta", {
+    pagina: "cuenta confirmada",
+    mensaje: "La cuenta se confirmó Correctamente"
+  });
+
+
+  
+
+  
 };
 
 const formularioOlvidePassword = (req, res) => {
