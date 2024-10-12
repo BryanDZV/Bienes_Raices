@@ -32,4 +32,36 @@ const emailRegistro = async (datos) => {
   });
 };
 
-export { emailRegistro };
+
+const emailOlvidePassword = async (datos) => {
+  //obtenido de mailtrap servicio de pruebas de email
+  var transport = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const { email, nombre, token } = datos;
+
+  //Enviar el email
+  await transport.sendMail({
+    from: "BienesRaices.com",
+    to: email,
+    subject: "Reestablece tu Password en BienesRaices.com",
+    text: "Reestablece tu Password en BienesRaices.com",
+    html: `
+    <p>Hola ${nombre}, has solicitado reestablecer tu password en BienesRaices.com</p>
+    
+    <p>sigue el siguiente enlace para generar un password nuevo : 
+    <a href="${process.env.BACKEND_URL}:${process.env.PORT ?? 3001
+    }/auth/olvide-password/${token}">Reestablecer Password</a></p>
+
+    <p>Si tu no solicitaste el cambio de password, puedes ignorar este mensaje</p>
+    
+    `,
+  });
+};
+export { emailRegistro, emailOlvidePassword };
