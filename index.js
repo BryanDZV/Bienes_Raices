@@ -4,6 +4,7 @@ import express from "express"; // type:module
 import csrf from "csurf";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
+import propiedadesRoutes from "./routes/propiedadesRoutes.js";
 import db from "./config/db.js";
 
 //crear la app
@@ -38,10 +39,15 @@ app.set("views", "./views");
 //Carpeta publica
 app.use(express.static("public"));
 
+
 //Routing
 //(get solo ruta exacta use busca todas las que inicien con /o lo que pongas y te da)
 // app.use("/", userRoutes);
 app.use("/auth", userRoutes);
+app.use("/", propiedadesRoutes);
+
+
+
 
 //Defenir un puerto y arrancar el proyecto
 const port = process.env.PORT || 3001;

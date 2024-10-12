@@ -1,6 +1,7 @@
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
-import { generarId } from "../helpers/tokens.js";
+import jwt from 'jsonwebtoken'
+import { generarJWT,generarId } from "../helpers/tokens.js";
 import { emailRegistro, emailOlvidePassword } from "../helpers/emails.js";
 import Usuario from "../models/Usuario.js";
 
@@ -62,6 +63,32 @@ const autenticar= async(req,res)=>{
     }
 
     //Revisar el Password
+
+    if (!usuario.verificarPassword(password)) {
+
+      return res.render("auth/login", {
+        pagina: "Iniciar Sesión",
+        csrfToken: req.csrfToken(),
+        errores: [{msg:'El password es incorrecto'}]
+        
+      })
+    }
+
+    // Autenticar al usuario
+
+    const token = generarJWT({id:usuario.id, nombre:usuario.nombre})
+
+    console.log(token);
+    
+    //Almacenar en un cookie
+
+    return res.cookie('_token',token,{
+    httpOnly:true,
+    //secure:true, solo enpaginas seguras deployment time si me deja lo aactivo
+    //sameSite:true,solo enpaginas seguras deployment time si me deja lo aactivo
+  }).redirect('/mis-propiedades')
+
+
 }
 
 const formularioRegistro = (req, res) => {
